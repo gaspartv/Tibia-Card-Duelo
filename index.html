@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tibia Card Duelo</title>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <script src="./src/js/criaturas.js"></script>
+    <script src="./src/js/criaturasPlayer2.js"></script>
+    <script defer src="./src/js/scripts.js"></script>
+</head>
+<body id="body">
+    <header>
+        <h1>Tibia Card</h1>
+        <nav>
+            <ul>
+                <li id="duelar">Duelar</li>
+                <li id="deck">Meu deck</li>
+                <li>Loja</li>
+                <li>Minha conta</li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <section id="cardsCombatHTML">
+            <p id="contadorRegressivo">Vamos batalhar?</p>
+            <ul id="batalhaHTML" class="cardsCombat">
+                <div class="divCard">
+                    <li class="cardPlayer1"></li>
+                    <p id="textoCardPlayer1">...</p>
+                </div>
+                <li class="divisorX">X</li>
+                <div class="divCard">
+                    <li class="cardPlayer2"></li>
+                    <p id="textoCardPlayer2">...</p>
+                </div>
+            </ul>
+            <p id="logFight">Estou aguardando sua joga!!!</p>
+            <p id="logFight2">Não tenha pressa, tenho todo tempo do mundo!</p>
+        </section>
+        <div id="footer">
+            <p class="cartasComprar"></p>
+            <div class="botoes">
+                <button id="atacarCarta">Atacar</button>
+                <button id="comprarCarta">Comprar</button>
+                <button id="descartarCarta">Descartar</button>
+            </div>
+            <ul id="cardsMaoHTML" class="cardsHands"></ul>
+        </div>
+    </main>
+</body>
+</html>

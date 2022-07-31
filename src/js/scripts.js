@@ -26,13 +26,17 @@ const textoCardPlayer1 = document.getElementById("textoCardPlayer1")
 const textoCardPlayer2 = document.getElementById("textoCardPlayer2")
 const btnDuelar = document.getElementById("duelar")
 const btnDeck = document.getElementById("deck")
+const botoes = document.querySelector(".botoes")
+const habilidadesPlayer1 = document.getElementById("habilidadesPlayer1")
+const habilidadesPlayer2 = document.getElementById("habilidadesPlayer2")
+
 
 if (quantidadeCartasComprar == 1) {
-    qntCartas.innerText = `Você pode comprar ${quantidadeCartasComprar} carta!`
+    qntCartas.innerText = `Você selecionou o modo para jogar com ${quantidadeCartasComprar} carta!`
 } else if (quantidadeCartasComprar > 1) {
-    qntCartas.innerText = `Você pode comprar ${quantidadeCartasComprar} cartas!`
+    qntCartas.innerText = `Você selecionou o modo para jogar com ${quantidadeCartasComprar} cartas!`
 } else {
-    qntCartas.innerText = `Você não pode comprar mais cartas!`
+    qntCartas.innerText = `Para iniciar o jogo, volte no menu e selecione a quantidade de cartas!`
 }
 
 // FUNÇÃO BATALHA
@@ -77,12 +81,43 @@ function calcularDano(player1, player2) {
 
 // FUNÇÃO COMBATE
 function combate() {
-    player2()
     // DAMAGE
     let danoPlayer1 = 0
     let danoPlayer2 = 0
-    let velocidadePlayer1 = cartaPlayer1[0].velocidade + cartaPlayer1[0].stamina
-    let velocidadePlayer2 = cartaPlayer2[0].velocidade + cartaPlayer2[0].stamina
+
+    let danoExtra1 = 0
+    let danoExtra2 = 0
+
+    let danoDrunk1 = 1
+    let danoDrunk2 = 1
+
+    let velocidadeExtra1 = 0
+    let velocidadeExtra2 = 0
+
+    let velocidadeParalizy1 = 0
+    let velocidadeParalizy2 = 0
+
+    cartaPlayer1.forEach(elem => {
+        elem.status.forEach(elemStatus => {
+            elemStatus == "heal" ? elem.hp += elem.habilidades[0].heal : ""
+            elemStatus == "veneno" ? danoExtra2 = elem.habilidades[0].veneno : ""
+            elemStatus == "drunk" ? danoDrunk1 = elem.habilidades[0].drunk : ""
+            elemStatus == "haste" ? velocidadeExtra1 = elem.habilidades[0].haste : ""
+            elemStatus == "paralyze" ? velocidadeParalizy2 = elem.habilidades[0].paralyze : ""
+        })
+    })
+    cartaPlayer2.forEach(elem => {
+        elem.status.forEach(elemStatus => {
+            elemStatus == "heal" ? elem.hp += elem.habilidades[0].heal : ""
+            elemStatus == "veneno" ? danoExtra1 = elem.habilidades[0].veneno : ""
+            elemStatus == "drunk" ? danoDrunk2 = elem.habilidades[0].drunk : ""
+            elemStatus == "haste" ? velocidadeExtra2 = elem.habilidades[0].haste : ""
+            elemStatus == "paralyze" ? velocidadeParalizy1 = elem.habilidades[0].paralyze : ""
+        })
+    })
+
+    let velocidadePlayer1 = parseInt((cartaPlayer1[0].velocidade + cartaPlayer1[0].stamina + velocidadeExtra1) - velocidadeParalizy1)
+    let velocidadePlayer2 = parseInt((cartaPlayer2[0].velocidade + cartaPlayer2[0].stamina + velocidadeExtra2) - velocidadeParalizy2)
 
     // QUEM ATACA PRIMEIRO
     if (velocidadePlayer1 == velocidadePlayer2) {
@@ -112,46 +147,47 @@ function combate() {
         danoPlayer1 = calcularDano(cartaPlayer2, cartaPlayer1)
     }
 
-    cartaPlayer1[0].hp = cartaPlayer1[0].hp - danoPlayer1
-    cartaPlayer2[0].hp = cartaPlayer2[0].hp - danoPlayer2
+    let dano1 = parseInt((danoPlayer1 + danoExtra1) / danoDrunk1)
+    let dano2 = parseInt((danoPlayer2 + danoExtra2) / danoDrunk2)
+
+    cartaPlayer1[0].hp += -dano1
+    cartaPlayer2[0].hp += -dano2
 
     // GASTO DE STAMINA
     cartaPlayer1[0].stamina = cartaPlayer1[0].stamina - 10
     cartaPlayer2[0].stamina = cartaPlayer2[0].stamina - 10
 
-    // HABILIDADE DE CURAR
-    if (cartaPlayer1[0].habilidades[0].heal != false) {
-        cartaPlayer1[0].hp = cartaPlayer1[0].hp + cartaPlayer1[0].habilidades[0].heal
-        textoCardPlayer1.innerHTML = `Consegui recuperar ${cartaPlayer1[0].habilidades[0].heal} HP`
-    }
-    if (cartaPlayer2[0].habilidades[0].heal != false) {
-        cartaPlayer2[0].hp = cartaPlayer2[0].hp + cartaPlayer2[0].habilidades[0].heal
-        textoCardPlayer2.innerHTML = `Consegui recuperar ${cartaPlayer2[0].habilidades[0].heal} HP`
+    // MENSAGENS NA TELA
+        divisorX.innerText = ``
+        contadorRegressivo.innerHTML = ``
+        logFight2.innerHTML = ``
+        logFight.innerHTML = ``
+    if (danoPlayer1 < danoPlayer2) {
+        divisorX.innerText = `${cartaPlayer1[0].nome} venceu!`
+        contadorRegressivo.innerHTML = `Causando ${dano2} dano!`
+        logFight2.innerHTML = `Resistiu a ${dano1} dano!`
+    } else if (danoPlayer1 > danoPlayer2) {
+        divisorX.innerText = `${cartaPlayer2[0].nome} venceu!`
+        contadorRegressivo.innerHTML = `Causando ${dano1} dano!`
+        logFight2.innerHTML = `Resistiu a ${dano2} dano!`
+    } else {
+        divisorX.innerText = `EMPATE!`
+        logFight.innerHTML = `Você recebeu ${dano1} de dano e tirou ${dano2} de dano!`
     }
 
-    // MENSAGENS NA TELA
-    if (danoPlayer1 < danoPlayer2) {
-        divisorX.innerText = ">"
-        contadorRegressivo.innerHTML = `Na próxima eu te derrubo!`
-    } else {
-        divisorX.innerText = "<"
-        contadorRegressivo.innerHTML = `Esta gostando de apanhar?`
-    }
-    logFight.innerHTML = `Você recebeu ${danoPlayer1} de dano e tirou ${danoPlayer2} de dano!`
 
     // PLAYER 1
     let idCartaPlayer1 = cartaPlayer1[0].id
     cartasMaoPlayer1.forEach((elem, index) => {
         if (idCartaPlayer1 != elem.id) {
-            if (elem.stamina < 30) {
-                elem.stamina += 10
-            }
+            elem.stamina < 30 ? elem.stamina += 10 : ""
         }
         if (idCartaPlayer1 == elem.id) {
             if (elem.hp <= 0) {
-                cartaPlayer1.shift()
                 cartasMaoPlayer1.splice(index, 1)
-                logFight2.innerHTML = `Você perdeu a carta ${elem.nome}`
+                logFight.innerHTML = `Você perdeu a carta ${elem.nome}`
+                textoCardPlayer1.innerHTML = "Não consegui resistir!"
+                textoCardPlayer2.innerHTML = "ESTE E O SEU MELHOR?"
                 cardPlayer1.classList.add("derrota")
             } else if (elem.hp > 0) {
                 cartasMaoPlayer1.splice(index, 1)
@@ -166,14 +202,14 @@ function combate() {
     let idCartaPlayer2 = cartaPlayer2[0].id
     cartasMaoPlayer2.forEach((elem, index) => {
         if (idCartaPlayer2 != elem.id) {
-            if (elem.stamina < 30) {
-                elem.stamina += 10
-            }
+            elem.stamina < 30 ? elem.stamina += 10 : ""
         }
         if (idCartaPlayer2 == elem.id) {
             if (elem.hp <= 0) {
                 cartasMaoPlayer2.splice(index, 1)
-                logFight2.innerHTML = `Você destruiu a carta ${elem.nome} do seu inimigo!`
+                logFight.innerHTML = `Você destruiu a carta ${elem.nome} do seu inimigo!`
+                textoCardPlayer1.innerHTML = "SEM PIEDADE!"
+                textoCardPlayer2.innerHTML = "Ohhh não..."
                 cardPlayer2.classList.add("derrota")
             } else if (elem.hp > 0) {
                 cartasMaoPlayer2.splice(index, 1)
@@ -183,32 +219,37 @@ function combate() {
         player2()
     })
 
-    // FUTURA FUNÇÃO PARA GAME OVER
-    if (cartasMaoPlayer2.length == 0 && quantidadeCartasComprar2 == 0) {
-        setTimeout(() => {
-            main.innerHTML = ""
-            main.innerHTML = "Você venceu!"
-            main.classList.add("main")
-            footer.innerHTML = ""
-            footer.innerHTML = `<a href="./index.html" class="btnContinuar">Continuar</a>`
-            footer.classList.add("footer")
-            body.classList.add("final")
-        }, 5000)
-    } else if (cartasMaoPlayer1.length == 0 && quantidadeCartasComprar == 0) {
-        setTimeout(() => {
-            main.innerHTML = ""
-            main.innerHTML = "Você perdeu!"
-            main.classList.add("main")
-            footer.innerHTML = ""
-            footer.innerHTML = `<a href="./index.html" class="btnContinuar">Continuar</a>`
-            footer.classList.add("footer")
-            body.classList.add("final")
-        }, 5000)
-    }
-    danoPlayer1 = 0
-    danoPlayer2 = 0
+    // RESETAR TODOS OS ATRIBUTOS 
+    botoes.classList.remove("hidden")
 }
 
+// FUNÇÃO HABILIDADES
+function habilidades() {
+    cartasMaoPlayer1.forEach((elem) => {
+        let arrayStatus = elem.status
+        let arrayHabilidades = elem.habilidades[0]
+        for (let key in arrayHabilidades) {
+            let statusTrueFalse = arrayStatus.includes(key)
+            if (statusTrueFalse == false) {
+                if (arrayHabilidades[key] != false) {
+                    arrayStatus.push(key)
+                }
+            }
+        }
+    })
+    cartasMaoPlayer2.forEach((elem) => {
+        let arrayStatus = elem.status
+        let arrayHabilidades = elem.habilidades[0]
+        for (let key in arrayHabilidades) {
+            let statusTrueFalse = arrayStatus.includes(key)
+            if (statusTrueFalse == false) {
+                if (arrayHabilidades[key] != false) {
+                    arrayStatus.push(key)
+                }
+            }
+        }
+    })
+}
 
 
 //======== FUNÇÕES PLAYER 1 =======//
@@ -217,7 +258,6 @@ function combate() {
 
 // FUNÇÃO CRIAR CARDS PLAYER 1
 function player1() {
-    const cardPlayer1 = document.querySelector(".cardPlayer1")
     cardPlayer1.innerHTML = ""
     if (cartaPlayer1.length == 0) {
         modoDeEsperaPlayer1()
@@ -227,36 +267,45 @@ function player1() {
         cardPlayer1.id = criatura.id
         let nome = document.createElement("h3")
         nome.innerText = criatura.nome
+        let estrela = document.createElement("p")
+        estrela.classList.add("estrelasRaridade")
+        let estrelaImg = document.createElement("img")
+        estrelaImg.src = `./src/img/estrelas/difficulty_${criatura.estrela}.png`
+        estrelaImg.title = "Estrelas"
+        let raridadeImg = document.createElement("img")
+        raridadeImg.src = `./src/img/raridade/rarity_${criatura.raridade}.png`
+        raridadeImg.title = "Raridade"
         let ataqueDefesa = document.createElement("p")
-        ataqueDefesa.innerText = `Ataque: ${criatura.ataqueFisico} / Defesa ${criatura.defesa}`
-        let hitPoint = document.createElement("p")
-        hitPoint.innerHTML = `HP: ${criatura.hp}`
+        ataqueDefesa.innerHTML = `<img src="./src/img/efeitos/ataque.gif">&nbsp;${criatura.ataqueFisico}&nbsp;&nbsp;&nbsp;<img src="./src/img/efeitos/defesa.gif">&nbsp;${criatura.defesa}`
+        ataqueDefesa.classList.add("ataqueDefesa")
+        let divHPred = document.createElement("div")
+        divHPred.classList.add("divHPred")
+        let porcentagemHP = (criatura.hp/criatura.hpTotal)*100
+        let divHPgreen = document.createElement("div")
+        divHPgreen.id = `green${criatura.id}`
+        divHPgreen.style = `background-color: green; width: ${porcentagemHP}%; height: 5px; border-radius: 2px;`
+        hitPoint = document.createElement("p")
+        hitPoint.classList.add("hitPoint")
+        hitPoint.innerHTML = `<strong>HP:&nbsp;</strong>${criatura.hp}`
+        let divImg = document.createElement("div")
+        divImg.classList.add("imgCardMao")
         let img = document.createElement("img")
         img.src = criatura.img
-        cardPlayer1.append(nome, ataqueDefesa, hitPoint, img)
+        estrela.append(estrelaImg, raridadeImg)
+        divHPred.appendChild(divHPgreen)
+        divImg.appendChild(img)
+        cardPlayer1.append(nome, estrela, ataqueDefesa, divHPred, hitPoint, divImg)
     }
 }
 
 // MODO DE ESPERA PLAYER 1
 function modoDeEsperaPlayer1() {
-    const cardPlayer1 = document.querySelector(".cardPlayer1")
-    cardPlayer1.innerHTML = ""
+        cardPlayer1.innerHTML = ""
         cardPlayer1.classList.add("cards")
-        let nome = document.createElement("h3")
-        nome.innerText = "???"
-        let ataqueDefesa = document.createElement("p")
-        ataqueDefesa.innerText = "???"
-        let hitPoint = document.createElement("p")
-        hitPoint.innerHTML = "???"
-        let imune = document.createElement("p")
-        imune.innerHTML = "???"
-        let forte = document.createElement("p")
-        forte.innerHTML = "???"
-        let fraco = document.createElement("p")
-        fraco.innerHTML = "???"
-        let velocidade = document.createElement("p")
-        velocidade.innerHTML = "???"
-        cardPlayer1.append(nome, ataqueDefesa, hitPoint, imune, forte, fraco, velocidade)
+        cardPlayer1.classList.add("espera")
+        let espera = document.createElement("img")
+        espera.src = "./src/img/espera.gif"
+        cardPlayer1.appendChild(espera)
 }
 
 // BOTÃO ATACAR
@@ -266,46 +315,60 @@ atacarCarta.addEventListener("click", () => {
     textoCardPlayer1.innerHTML = "..."
     textoCardPlayer2.innerHTML = "..."
     if (cartaPlayer1.length > 0) {
+        botoes.classList.add("hidden")
         let timerValor = 5
         let sonsTamanho1 = cartaPlayer1[0].sons.length
         let sonsTamanho2 = cartaPlayer2[0].sons.length
         if (cartaPlayer1[0].stamina > 0) {
-            if (cartaPlayer1.length > 0) {
-                setInterval(() => {
-                    if (timerValor > 0) {
-                        if (sonsTamanho1 > 0) {
-                            let randomSons1 = randomNumber(sonsTamanho1)
-                            textoCardPlayer1.innerText = cartaPlayer1[0].sons[randomSons1]
-                        }
-                        if (sonsTamanho2 > 0) {
-                            let randomSons2 = randomNumber(sonsTamanho2)
-                            textoCardPlayer2.innerText = cartaPlayer2[0].sons[randomSons2]
-                        }
-                    
-                    divisorX.innerText = timerValor
-                    contadorRegressivo.innerHTML = `A batalha já vai começar!!!`
-                    logFight.innerHTML = "Aguardando outro jogador..."
-                    logFight2.innerHTML = `...`
+            setInterval(() => {
+                let randomSons1 = randomNumber(sonsTamanho1)
+                let randomSons2 = randomNumber(sonsTamanho2)
+
+                if (timerValor > 0) {
+                    sonsTamanho1 > 0 ? textoCardPlayer1.innerText = cartaPlayer1[0].sons[randomSons1] : ""
+                    sonsTamanho2 > 0 ? textoCardPlayer2.innerText = cartaPlayer2[0].sons[randomSons2] : ""
+                    if (timerValor == 5) {
+                        divisorX.innerText = timerValor
+                        contadorRegressivo.innerHTML = ""
+                        logFight2.innerHTML = ""
+                        logFight.innerHTML = ""
+                    } else if (timerValor == 4) {
+                        divisorX.innerText = timerValor
+                    } else if (timerValor == 3) {
+                        divisorX.innerText = timerValor
+                    } else if (timerValor == 2) {
+                        divisorX.innerText = timerValor
+                    } else if (timerValor == 1) {
+                        divisorX.innerText = timerValor
+                    }
                     timerValor--
-                }
-            }, 1000)
-            setTimeout(() => {
-                comprarCartasPlayer2()
-                divisorX.innerHTML = "Fight"
-                contadorRegressivo.innerHTML = `A batalha começou!!!`
-                logFight2.innerHTML = `Seu inimigo escolheu ${cartaPlayer2[0].nome}`
-            }, 6000)
-            setTimeout(() => {
-                    combate()
-            }, 10000)
             }
+        }, 1000)
+        setTimeout(() => {
+            comprarCartasPlayer2()
+            player2()
+            divisorX.innerHTML = `Fight`
+            contadorRegressivo.innerHTML = ""
+            logFight.innerHTML = ""
+            logFight2.innerHTML = `<strong>${cartaPlayer1[0].nome}</strong>&nbsp;x&nbsp;<strong>${cartaPlayer2[0].nome}</strong>`
+        }, 6000)
+        setTimeout(() => {
+                combate()
+        }, 12000)
         } else {
-            contadorRegressivo.innerHTML = `ATENÇÃO`
-            logFight.innerHTML = "ESTÁ CARTA ESTA SEM STAMINA"
-            logFight2.innerHTML = `USE OUTRA PARA CONTINUAR`
-            cartaPlayer1.shift()
-            player1()
+            botoes.classList.remove("hidden")
+            cardPlayer1.classList.add("derrota")
+            divisorX.innerHTML = "ATENÇÃO"
+            contadorRegressivo.innerHTML = `${cartaPlayer1[0].nome}`
+            logFight2.innerHTML = `Está sem stamina...`
+            logFight.innerHTML = "Use outra carta para continuar!"
+            textoCardPlayer1.innerHTML = "Estou cansado!"
         }
+    } else {
+        divisorX.innerHTML = "ATENÇÃO"
+        contadorRegressivo.innerHTML = ``
+        logFight2.innerHTML = `Você precisa escolher uma carta!`
+        logFight.innerHTML = ""
     }
 })
 
@@ -314,12 +377,10 @@ const comprarCartas = document.getElementById("comprarCarta")
 comprarCartas.addEventListener("click", () => {
     if (cartasMaoPlayer1.length < 5 && quantidadeCartasComprar > 0) {
         let randomN = randomNumber(arrayCriaturas.length)
-        console.log(randomN)
         let retorno = cartasComprasPlayer1.includes(randomN)
         if (retorno == false) {
             cartasComprasPlayer1.push(randomN)
-            cartasMaoPlayer1.length < 5 ? cartasMaoPlayer1.push(arrayCriaturas[randomN]) : ""
-            quantidadeCartasComprar--
+            cartasMaoPlayer1.length < 5 ? (cartasMaoPlayer1.push(arrayCriaturas[randomN]), quantidadeCartasComprar--) : ""
             qntCartas.innerText = ""
                 if (quantidadeCartasComprar == 1) {
                     qntCartas.innerHTML = `Você pode comprar ${quantidadeCartasComprar} carta!`
@@ -328,8 +389,8 @@ comprarCartas.addEventListener("click", () => {
                 } else {
                     qntCartas.innerHTML = `Você não pode comprar mais cartas!`
                 }
-            
         }
+        habilidades()
         criarCardsMao()
     }
 })
@@ -341,7 +402,7 @@ descartarCarta.addEventListener("click", () => {
     if (cartaPlayer1.length != 0) {
         cartaPlayer1.shift()
         cartasMaoPlayer1.forEach((elem, index) => {
-            descarte.id == elem.id ? cartasMaoPlayer1.splice(index, 1) : ""
+            descarte.id == elem.id ? (textoCardPlayer1.innerText = `Descartei ${elem.nome}`, cartasMaoPlayer1.splice(index, 1)) : ""
         })
         player1()
         criarCardsMao()
@@ -349,15 +410,28 @@ descartarCarta.addEventListener("click", () => {
 })
 
 // BOTÃO USAR CARTA
-cardsMaoHTML.addEventListener("click", (event) => {
+cardsMaoHTML.addEventListener("click", (event) => {    
+    cardPlayer1.classList.remove("derrota")
+    textoCardPlayer2.innerHTML = "..."
+    
+    
     let target = event.target
     if (target.tagName == "BUTTON") {
         let idTarget = target.parentElement.id
         cartaPlayer1.shift()
-        cartasMaoPlayer1.forEach(elem => elem.id == idTarget ? cartaPlayer1.push(elem) : "")
+        cartasMaoPlayer1.forEach(elem => elem.id == idTarget ? 
+            (elem.stamina == 0 ? 
+                (   cardPlayer1.classList.add("derrota"), 
+                    logFight.innerHTML = "Esta carta esta sem stamina", 
+                    textoCardPlayer1.innerText = `${elem.nome} estou cansado!`)
+                    : textoCardPlayer1.innerText = `Vou usar ${elem.nome}`,
+                      cartaPlayer1.push(elem),
+                      divisorX.innerText = `${elem.nome}`,
+                      contadorRegressivo.innerHTML = `<strong>HP:&nbsp;</strong>${elem.hp}`,
+                      logFight2.innerHTML = `<img src="./src/img/efeitos/ataque.gif">&nbsp;${elem.ataqueFisico}&nbsp;&nbsp;&nbsp;<img src="./src/img/efeitos/defesa.gif">&nbsp;${elem.defesa}`,
+                      logFight.innerHTML = `<img src="./src/img/estrelas/difficulty_${elem.estrela}.png">&nbsp;&nbsp;<img src="./src/img/raridade/rarity_${elem.raridade}.png">` ) : "")
         batalha()
     }
-    cardPlayer1.classList.remove("derrota")
 })
 
 // BOTÃO MENU DUELAR
@@ -396,19 +470,20 @@ function criarCardsMao() {
         raridadeImg.src = `./src/img/raridade/rarity_${elem.raridade}.png`
         raridadeImg.title = "Raridade"
         let ataqueDefesa = document.createElement("p")
-        ataqueDefesa.innerText = `Ataque: ${elem.ataqueFisico} / Defesa ${elem.defesa}`
+        ataqueDefesa.classList.add("ataqueDefesa")
+        ataqueDefesa.innerHTML = `<img src="./src/img/efeitos/ataque.gif">&nbsp;${elem.ataqueFisico}&nbsp;&nbsp;&nbsp;<img src="./src/img/efeitos/defesa.gif">&nbsp;${elem.defesa}`
         let ataqueMagico = document.createElement("p")
+        ataqueMagico.classList.add("ataqueMagico")
         ataqueMagico.innerHTML = "Ataque magico:<br>"
-        let contadorAtaqueMagico = 0
+        let arrayAtaquesMagicos = []
         for (let key in elem.ataqueMagico[0]) {
             if (elem.ataqueMagico[0][key] != false) {
-                contadorAtaqueMagico++
-                ataqueMagico.innerHTML += `${key}: ${elem.ataqueMagico[0][key]}<br>`
+                arrayAtaquesMagicos.push(`<img src="./src/img/efeitos/${key}.gif" title="${key}">`)
             }
         }
-        contadorAtaqueMagico == 0 ? ataqueMagico.innerHTML = "" : ""
+        arrayAtaquesMagicos.length > 0 ? ataqueMagico.innerHTML = `Magias:${arrayAtaquesMagicos.join("")}` : ""
         let divStatus = document.createElement("div")
-        divStatus.id = `status${elem.id}`
+        divStatus.classList.add("statusBar")
         let divHPred = document.createElement("div")
         divHPred.classList.add("divHPred")
         let porcentagemHP = (elem.hp/elem.hpTotal)*100
@@ -417,26 +492,31 @@ function criarCardsMao() {
         divHPgreen.style = `background-color: green; width: ${porcentagemHP}%; height: 5px; border-radius: 2px;`
         let hitPoint = document.createElement("p")
         hitPoint.classList.add("hitPoint")
-        hitPoint.innerHTML = `HP: ${elem.hp}`
+        hitPoint.innerHTML = `<strong>HP:&nbsp;</strong>${elem.hp}`
         let imune = document.createElement("p")
-        imune.innerHTML = "Habilidades:<br>"
-        let contadorHabilidades = 0
+        imune.classList.add("imune")
+        let arrayHabilidades = []
         for (let key in elem.habilidades[0]) {
-            elem.habilidades[0][key] != false ? (imune.innerHTML += `${key}: ${elem.habilidades[0][key]}<br>`, contadorHabilidades++) : ""
+            elem.habilidades[0][key] != false ? arrayHabilidades.push(`<img src="./src/img/efeitos/${key}.gif" title="${key}">`) : ""
         }
-        contadorHabilidades == 0 ? imune.innerHTML = "" : ""
+        arrayHabilidades.length > 0 ? imune.innerHTML = `Habilidades:${arrayHabilidades.join("")}` : ""
         let velocidade = document.createElement("p")
-        velocidade.innerHTML = `Velocidade: ${elem.velocidade}`
+        velocidade.classList.add("velocidade")
+        velocidade.innerHTML = `Velocidade:&nbsp;${elem.velocidade}`
+        let divImg = document.createElement("div")
+        divImg.classList.add("imgCardMao")
         let img = document.createElement("img")
         img.src = elem.img
         let pStamina = document.createElement("p")
-        pStamina.innerText = `Stamina: ${elem.stamina}`
+        pStamina.classList.add("pStamina")
+        pStamina.innerHTML = `Stamina:&nbsp;${elem.stamina}`
         let btn = document.createElement("button")
         btn.classList.add("btnUsar")
         btn.innerText = "Usar carta"
         divHPred.appendChild(divHPgreen)
         estrela.append(estrelaImg, raridadeImg)
-        li.append(nome, estrela, divStatus, divHPred, hitPoint, ataqueDefesa, ataqueMagico, imune, velocidade, img, pStamina, btn)
+        divImg.appendChild(img)
+        li.append(nome, estrela, divStatus, divHPred, hitPoint, ataqueDefesa, ataqueMagico, imune, velocidade, pStamina, divImg, btn)
         cardsMaoHTML.appendChild(li)
     })
 }
@@ -449,63 +529,64 @@ function criarCardsMao() {
 
 // MODO DE ESPERA PLAYER 2
 function modoDeEsperaPlayer2() {
-    const cardPlayer2 = document.querySelector(".cardPlayer2")
     cardPlayer2.classList.remove("derrota")
     cardPlayer2.innerHTML = ""
-        cardPlayer2.classList.add("cards")
-        let nome = document.createElement("h3")
-        nome.innerText = "???"
-        let ataqueDefesa = document.createElement("p")
-        ataqueDefesa.innerText = "???"
-        let hitPoint = document.createElement("p")
-        hitPoint.innerHTML = "???"
-        let imune = document.createElement("p")
-        imune.innerHTML = "???"
-        let forte = document.createElement("p")
-        forte.innerHTML = "???"
-        let fraco = document.createElement("p")
-        fraco.innerHTML = "???"
-        let velocidade = document.createElement("p")
-        velocidade.innerHTML = "???"
-        cardPlayer2.append(nome, ataqueDefesa, hitPoint, imune, forte, fraco, velocidade)
+    cardPlayer2.classList.add("cards")
+    cardPlayer2.classList.add("espera")
+    let espera = document.createElement("img")
+    espera.src = "./src/img/espera.gif"
+    cardPlayer2.appendChild(espera)
 }
 
 // FUNÇÃO CRIAR CARDS PLAYER 2
 function player2() {
-    const cardPlayer2 = document.querySelector(".cardPlayer2")
     cardPlayer2.innerHTML = ""
     if (cartaPlayer2.length == 0) {
-        modoDeEsperaPlayer1()
+        modoDeEsperaPlayer2()
     } else {
         let criatura = cartaPlayer2[0]
         cardPlayer2.classList.add("cards")
         cardPlayer2.id = criatura.id
         let nome = document.createElement("h3")
         nome.innerText = criatura.nome
+        let estrela = document.createElement("p")
+        estrela.classList.add("estrelasRaridade")
+        let estrelaImg = document.createElement("img")
+        estrelaImg.src = `./src/img/estrelas/difficulty_${criatura.estrela}.png`
+        estrelaImg.title = "Estrelas"
+        let raridadeImg = document.createElement("img")
+        raridadeImg.src = `./src/img/raridade/rarity_${criatura.raridade}.png`
+        raridadeImg.title = "Raridade"
         let ataqueDefesa = document.createElement("p")
-        ataqueDefesa.innerText = `Ataque: ${criatura.ataqueFisico} / Defesa ${criatura.defesa}`
-        let hitPoint = document.createElement("p")
-        hitPoint.innerHTML = `HP: ${criatura.hp}`
+        ataqueDefesa.innerHTML = `<img src="./src/img/efeitos/ataque.gif">&nbsp;${criatura.ataqueFisico}&nbsp;&nbsp;&nbsp;<img src="./src/img/efeitos/defesa.gif">&nbsp;${criatura.defesa}`
+        ataqueDefesa.classList.add("ataqueDefesa")
+        let divHPred = document.createElement("div")
+        divHPred.classList.add("divHPred")
+        let porcentagemHP = (criatura.hp/criatura.hpTotal)*100
+        let divHPgreen = document.createElement("div")
+        divHPgreen.id = `green${criatura.id}`
+        divHPgreen.style = `background-color: green; width: ${porcentagemHP}%; height: 5px; border-radius: 2px;`
+        hitPoint = document.createElement("p")
+        hitPoint.classList.add("hitPoint")
+        hitPoint.innerHTML = `<strong>HP:&nbsp;</strong>${criatura.hp}`
+        let divImg = document.createElement("div")
+        divImg.classList.add("imgCardMao")
         let img = document.createElement("img")
         img.src = criatura.img
-        cardPlayer2.append(nome, ataqueDefesa, hitPoint, img)
+        estrela.append(estrelaImg, raridadeImg)
+        divHPred.appendChild(divHPgreen)
+        divImg.appendChild(img)
+        cardPlayer2.append(nome, estrela, ataqueDefesa, divHPred, hitPoint, divImg)
     }
 }
 
 // FUNÇÃO COMPRAR CARTA PLAYER 2
 function comprarCartasPlayer2() {
-    if (cartasMaoPlayer2.length == 0 && quantidadeCartasComprar2 == 0) {
-        main.innerHTML = ""
-        main.innerText = "Você venceu!"
-        main.classList.add("main")
-        footer.innerHTML = ""
-        footer.innerHTML = `<a href="./index.html" class="btnContinuar">Continuar</a>`
-        footer.classList.add("footer")
-        body.classList.add("body")
-    }
+    gameOver()
+
     for (let i = 0; i < 5; i++) {
         if (cartasMaoPlayer2.length < 5 && quantidadeCartasComprar2 > 0) {
-            let randomN = randomNumber(arrayCriaturasPlayer2.length-1)
+            let randomN = randomNumber(arrayCriaturasPlayer2.length)
             let retorno = cartasComprasPlayer2.includes(randomN)
             if (retorno == false) {
                 cartasComprasPlayer2.push(randomN)
@@ -514,6 +595,7 @@ function comprarCartasPlayer2() {
             }
         }
     }
+
     cartaPlayer2.shift()
     cartaPlayer2.push(cartasMaoPlayer2[0])
     cartasMaoPlayer2.forEach(elem => {
@@ -523,6 +605,32 @@ function comprarCartasPlayer2() {
             speedElemento > speedMao ? (cartaPlayer2.shift(), cartaPlayer2.push(elem)) : ""
         }
     }) 
+}
+
+// FUNÇÃO GAME OVER
+function gameOver() {
+    // FUTURA FUNÇÃO PARA GAME OVER
+    if (cartasMaoPlayer2.length == 0 && quantidadeCartasComprar2 == 0) {
+        setTimeout(() => {
+            main.innerHTML = ""
+            main.innerHTML = "Você venceu!"
+            main.classList.add("main")
+            footer.innerHTML = ""
+            footer.innerHTML = `<a href="./index.html" class="btnContinuar">Continuar</a>`
+            footer.classList.add("footer")
+            body.classList.add("final")
+        }, 5000)
+    } else if (cartasMaoPlayer1.length == 0 && quantidadeCartasComprar == 0) {
+        setTimeout(() => {
+            main.innerHTML = ""
+            main.innerHTML = "Você perdeu!"
+            main.classList.add("main")
+            footer.innerHTML = ""
+            footer.innerHTML = `<a href="./index.html" class="btnContinuar">Continuar</a>`
+            footer.classList.add("footer")
+            body.classList.add("final")
+        }, 5000)
+    }
 }
 
 

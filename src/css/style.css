@@ -46,201 +46,122 @@ header nav ul li:hover {
     border-bottom: 2px solid #fff;
 }
 
-main {
-    background-color: #fff;
-    color: #000;
-}
-
-.fundoFight {
-    background-color: red;
-}
-
-#contadorRegressivo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    font-size: 30px;
-    font-weight: 600;
-    text-transform: uppercase;
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-#logFight {
-    background-color: rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5px;
-    height: 40px;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-#logFight2 {
-    background-color: rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5px;
-    height: 40px;
-    font-size: 20px;
-    font-weight: 500;
-}
 
 .cardsCombat {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin: 30px 0;
+    padding: 10px 0;
 }
 
 .divCard {
-    background-color: rgb(255, 136, 0);
+    background-color: rgba(138, 0, 0, 0.9);
+    color: #fff;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
+    align-items: center;
     border-radius: 12px;
-    padding-bottom: 5px;
-    font-weight: 600;
-    text-align: center;
+    height: 210px;
 }
 
 .divCard p {
     font-family: 'Edu VIC WA NT Beginner', cursive;
+    font-weight: 500;
+    text-align: center;
 }
 
 .cards {
     background-color: rgb(29, 29, 29);
-    color: #fff;
     min-width: 250px;
-    min-height: 180px;
-    border: 2px solid rgb(255, 136, 0);
-    border-radius: 12px;
+    min-height: 182px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    transition: 2s;
 }
 
-.divisorX {
-    text-align: center;
-    width: 150px;
-    font-size: 80px;
-    font-weight: 400;
-    font-family: 'Edu VIC WA NT Beginner', cursive;
-}
-
-#footer {
-    color: #fff;
-    height: 500px;
-    background-color: #000;
-    padding: 2px 0 100px 0;
-}
-
-.cartasComprar {
+.cards h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.2);
-    margin-bottom: 10px;
-    font-size: 22px;
+    text-transform: uppercase;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-size: 13px;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 20px;
 }
 
-.botoes {
-    height: 80px;
-    background-color: rgba(255, 255, 255, 0.2);
+.espera {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 100px;
-    margin-bottom: 20px;
 }
 
-.botoes button {
-    padding: 10px;
-    font-size: 22px;
-    font-weight: 600;
-    background-color: #fff;
-    border-radius: 8px;
-    width: 120px;
-    border: 2px solid transparent;
-}
-
-.botoes button:hover {
-    background-color: rgb(138, 0, 0);
-    color: #fff;
-    cursor: pointer;
-    border: 2px solid #fff;
-}
-
-.cardsHands {
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-}
-
-.miniCards {
-    background-color: rgb(29, 29, 29);
-    width: 250px;
-    min-width: 220px;
-    border: 2px solid #fff;
-    border-radius: 8px;
+.textosBatalha {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 5px;
-    text-align: center;
-    padding: 10px 0;
-    cursor: default;
-    transition: 1s;
 }
 
-.miniCards:hover {
-    border: 2px solid rgb(138, 0, 0);
-}
-
-.estrelasRaridade {
+.divisorX {
     display: flex;
-    gap: 20px;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 80px;
+    font-size: 40px;
+    font-weight: 400;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+    background-color: rgba(0, 0, 0, 0.08);
 }
 
-.divHPred {
-    background-color: red;
-    width: 85%;
-    height: 5px;
-    border-radius: 2px;
-}
-
-.divHPgreen{
-    background-color: green;
-    width: 80%;
-    height: 5px;
-    border-radius: 2px;
-}
-
-.btnUsar {
-    padding: 5px;
-    font-size: 15px;
+#contadorRegressivo {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    font-size: 25px;
     font-weight: 600;
     text-transform: uppercase;
-    border-radius: 7px;
-    border: 2px;
-    border: 2px solid transparent;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-.btnUsar:hover {
-    cursor: pointer;
-    border: 2px solid rgb(138, 0, 0);
-    background-color: #000;
-    color: #fff;
+#logFight2 {
+    width: 500px;
+    background-color: rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    font-size: 17px;
+    font-weight: 500;
 }
+
+#logFight {
+    width: 500px;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+
+
+#habilidadesPlayer1 {
+    text-align: end;
+}
+
+#habilidadesPlayer2 {
+    text-align: start;
+}
+
 
 .derrota {
     background-color: rgb(99, 0, 0);
@@ -251,14 +172,6 @@ main {
 .final {
     background-color: chartreuse;
 }
-.main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 58px;
-    background-color: chartreuse;
-}
-
 .footer {
     display: flex;
     justify-content: center;
@@ -291,4 +204,211 @@ main {
 
 .visible {
     visibility: visible;
+}
+
+.bigFontCardsFigth {
+    font-size: 90px;
+}
+
+#footer {
+    color: #fff;
+    background-color: #000;
+}
+
+.cartasComprar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 22px;
+}
+
+.botoes {
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+
+.botoes button {
+    padding: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    background-color: #fff;
+    border-radius: 8px;
+    width: 120px;
+    border: 2px solid transparent;
+}
+
+.botoes button:hover {
+    background-color: rgb(138, 0, 0);
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+/****** INICIO CARTAS NA MÃO ******/
+.cardsHands {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 350px;
+    background-color: rgba(138, 0, 0, 0.3);
+}
+
+.miniCards {
+    background-color: rgb(29, 29, 29);
+    width: 220px;
+    height: 320px;
+    border: 2px solid rgba(255, 255, 255, 0.356);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+    transition: 0.5s;
+}
+
+.miniCards:hover {
+    border: 2px solid rgb(138, 0, 0);
+}
+
+.miniCards h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 20px;
+}
+
+.estrelasRaridade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    height: 15px;
+}
+
+.statusBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 15px;
+}
+
+.divHPred {
+    background-color: red;
+    width: 85%;
+    height: 5px;
+    border-radius: 2px;
+}
+
+.divHPgreen{
+    background-color: green;
+    height: 5px;
+    border-radius: 2px;
+}
+
+.hitPoint {
+    width: 85%;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.ataqueDefesa {
+    width: 85%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.ataqueMagico {
+    width: 85%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+    gap: 10px;
+}
+
+.imune {
+    width: 85%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+    gap: 10px;
+}
+
+.velocidade {
+    width: 85%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.imgCardMao {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pStamina {
+    width: 85%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.btnUsar {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 7px;
+    border: 2px;
+    border: 2px solid transparent;
+}
+
+.btnUsar:hover {
+    cursor: pointer;
+    border: 2px solid rgb(138, 0, 0);
+    background-color: #000;
+    color: #fff;
+}
+/***** FIM CARTAS NA MÃO *****/
+
+/***** GAME OVER *****/
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 58px;
+    background-color: chartreuse;
 }

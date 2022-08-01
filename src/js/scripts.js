@@ -1,10 +1,12 @@
 let cartasMaoPlayer1 = []
 let cartaPlayer1 = []
 let hpPlayer1 = 5000
+let hpPlayer1Max = 5000
 let cartasComprasPlayer1 = []
 let cartasMaoPlayer2 = []
 let cartaPlayer2 = []
 let hpPlayer2 = 5000
+let hpPlayer2Max = 5000
 let cartasComprasPlayer2 = []
 let cartasBatalha = []
 let quantidadeCartasComprar = 10
@@ -150,6 +152,22 @@ function combate() {
     let dano1 = parseInt((danoPlayer1 + danoExtra1) / danoDrunk1)
     let dano2 = parseInt((danoPlayer2 + danoExtra2) / danoDrunk2)
 
+    if (cartaPlayer1[0].hp > dano1) {
+        cartaPlayer1[0].hp += -dano1
+    } else if (cartaPlayer1[0].hp < dano1) {
+        let danoPuro = cartaPlayer1[0].hp += -dano1
+        cartaPlayer1[0].hp += -danoPuro
+        hpPlayer1 += danoPuro
+    }
+    if (cartaPlayer2[0].hp > dano2) {
+        cartaPlayer2[0].hp += -dano2
+    } else if (cartaPlayer2[0].hp < dano2) {
+        let danoPuro = cartaPlayer2[0].hp += -dano2
+        cartaPlayer2[0].hp += -danoPuro
+        hpPlayer2 += danoPuro
+    }
+
+
     cartaPlayer1[0].hp += -dano1
     cartaPlayer2[0].hp += -dano2
 
@@ -163,11 +181,11 @@ function combate() {
         logFight2.innerHTML = ``
         logFight.innerHTML = ``
     if (danoPlayer1 < danoPlayer2) {
-        divisorX.innerText = `${cartaPlayer1[0].nome} venceu!`
+        divisorX.innerText = `< ${cartaPlayer1[0].nome} venceu!`
         contadorRegressivo.innerHTML = `Causando ${dano2} dano!`
         logFight2.innerHTML = `Resistiu a ${dano1} dano!`
     } else if (danoPlayer1 > danoPlayer2) {
-        divisorX.innerText = `${cartaPlayer2[0].nome} venceu!`
+        divisorX.innerText = `${cartaPlayer2[0].nome} venceu! >`
         contadorRegressivo.innerHTML = `Causando ${dano1} dano!`
         logFight2.innerHTML = `Resistiu a ${dano2} dano!`
     } else {
@@ -185,7 +203,7 @@ function combate() {
         if (idCartaPlayer1 == elem.id) {
             if (elem.hp <= 0) {
                 cartasMaoPlayer1.splice(index, 1)
-                logFight.innerHTML = `Você perdeu a carta ${elem.nome}`
+                logFight.innerHTML = `Você perdeu a carta&nbsp;<del style="color: red;">${elem.nome}</del>`
                 textoCardPlayer1.innerHTML = "Não consegui resistir!"
                 textoCardPlayer2.innerHTML = "ESTE E O SEU MELHOR?"
                 cardPlayer1.classList.add("derrota")
@@ -207,7 +225,7 @@ function combate() {
         if (idCartaPlayer2 == elem.id) {
             if (elem.hp <= 0) {
                 cartasMaoPlayer2.splice(index, 1)
-                logFight.innerHTML = `Você destruiu a carta ${elem.nome} do seu inimigo!`
+                logFight.innerHTML = `Você destruiu a carta&nbsp;<del style="color: red;">${elem.nome}</del> do seu inimigo!`
                 textoCardPlayer1.innerHTML = "SEM PIEDADE!"
                 textoCardPlayer2.innerHTML = "Ohhh não..."
                 cardPlayer2.classList.add("derrota")
@@ -221,6 +239,7 @@ function combate() {
 
     // RESETAR TODOS OS ATRIBUTOS 
     botoes.classList.remove("hidden")
+    hpPlayers()
 }
 
 // FUNÇÃO HABILIDADES
@@ -251,6 +270,20 @@ function habilidades() {
     })
 }
 
+function hpPlayers() {
+    let porcentagemHPplayer1 = (hpPlayer1 / hpPlayer1Max) * 100
+    let porcentagemHPplayer2 = (hpPlayer2 / hpPlayer2Max) * 100
+    const hpTexto1 = document.querySelector(".hpTexto1")
+    const hpTexto2 = document.querySelector(".hpTexto2")
+    const green1 = document.querySelector("#barraHPgreenPlayer1")
+    const green2 = document.querySelector("#barraHPgreenPlayer2")
+    hpTexto1.innerText = hpPlayer1
+    green1.classList.add("green1")
+    green1.style = `background-color: green; width: ${porcentagemHPplayer1}%; height: 27px;`
+    hpTexto2.innerText = hpPlayer2
+    green2.classList.add("green2")
+    green2.style = `background-color: green; width: ${porcentagemHPplayer2}%; height: 27px;`
+}
 
 //======== FUNÇÕES PLAYER 1 =======//
 //======== FUNÇÕES PLAYER 1 =======//
@@ -316,45 +349,10 @@ atacarCarta.addEventListener("click", () => {
     textoCardPlayer2.innerHTML = "..."
     if (cartaPlayer1.length > 0) {
         botoes.classList.add("hidden")
-        let timerValor = 5
-        let sonsTamanho1 = cartaPlayer1[0].sons.length
-        let sonsTamanho2 = cartaPlayer2[0].sons.length
         if (cartaPlayer1[0].stamina > 0) {
-            setInterval(() => {
-                let randomSons1 = randomNumber(sonsTamanho1)
-                let randomSons2 = randomNumber(sonsTamanho2)
-
-                if (timerValor > 0) {
-                    sonsTamanho1 > 0 ? textoCardPlayer1.innerText = cartaPlayer1[0].sons[randomSons1] : ""
-                    sonsTamanho2 > 0 ? textoCardPlayer2.innerText = cartaPlayer2[0].sons[randomSons2] : ""
-                    if (timerValor == 5) {
-                        divisorX.innerText = timerValor
-                        contadorRegressivo.innerHTML = ""
-                        logFight2.innerHTML = ""
-                        logFight.innerHTML = ""
-                    } else if (timerValor == 4) {
-                        divisorX.innerText = timerValor
-                    } else if (timerValor == 3) {
-                        divisorX.innerText = timerValor
-                    } else if (timerValor == 2) {
-                        divisorX.innerText = timerValor
-                    } else if (timerValor == 1) {
-                        divisorX.innerText = timerValor
-                    }
-                    timerValor--
-            }
-        }, 1000)
-        setTimeout(() => {
-            comprarCartasPlayer2()
-            player2()
-            divisorX.innerHTML = `Fight`
-            contadorRegressivo.innerHTML = ""
-            logFight.innerHTML = ""
-            logFight2.innerHTML = `<strong>${cartaPlayer1[0].nome}</strong>&nbsp;x&nbsp;<strong>${cartaPlayer2[0].nome}</strong>`
-        }, 6000)
-        setTimeout(() => {
-                combate()
-        }, 12000)
+            atacar()
+        } else if (cartaPlayer1[0].stamina <= 0 && cartasMaoPlayer1.length == 1 && quantidadeCartasComprar == 0) {
+            atacar()
         } else {
             botoes.classList.remove("hidden")
             cardPlayer1.classList.add("derrota")
@@ -371,6 +369,47 @@ atacarCarta.addEventListener("click", () => {
         logFight.innerHTML = ""
     }
 })
+
+function atacar() {
+    let timerValor = 5
+    let sonsTamanho1 = cartaPlayer1[0].sons.length
+    let sonsTamanho2 = cartaPlayer2[0].sons.length
+    setInterval(() => {
+        let randomSons1 = randomNumber(sonsTamanho1)
+        let randomSons2 = randomNumber(sonsTamanho2)
+
+        if (timerValor > 0) {
+            sonsTamanho1 > 0 ? textoCardPlayer1.innerText = cartaPlayer1[0].sons[randomSons1] : ""
+            sonsTamanho2 > 0 ? textoCardPlayer2.innerText = cartaPlayer2[0].sons[randomSons2] : ""
+            if (timerValor == 5) {
+                divisorX.innerText = timerValor
+                contadorRegressivo.innerHTML = ""
+                logFight2.innerHTML = ""
+                logFight.innerHTML = ""
+            } else if (timerValor == 4) {
+                divisorX.innerText = timerValor
+            } else if (timerValor == 3) {
+                divisorX.innerText = timerValor
+            } else if (timerValor == 2) {
+                divisorX.innerText = timerValor
+            } else if (timerValor == 1) {
+                divisorX.innerText = timerValor
+            }
+            timerValor--
+    }
+}, 1000)
+setTimeout(() => {
+    comprarCartasPlayer2()
+    player2()
+    divisorX.innerHTML = `Fight`
+    contadorRegressivo.innerHTML = ""
+    logFight.innerHTML = ""
+    logFight2.innerHTML = `<strong>${cartaPlayer1[0].nome}</strong>&nbsp;x&nbsp;<strong>${cartaPlayer2[0].nome}</strong>`
+}, 6000)
+setTimeout(() => {
+        combate()
+}, 12000)
+}
 
 // BOTÃO COMPRAR CARTA
 const comprarCartas = document.getElementById("comprarCarta")
@@ -499,7 +538,7 @@ function criarCardsMao() {
         for (let key in elem.habilidades[0]) {
             elem.habilidades[0][key] != false ? arrayHabilidades.push(`<img src="./src/img/efeitos/${key}.gif" title="${key}">`) : ""
         }
-        arrayHabilidades.length > 0 ? imune.innerHTML = `Habilidades:${arrayHabilidades.join("")}` : ""
+        arrayHabilidades.length > 0 ? imune.innerHTML = `Skills:${arrayHabilidades.join("")}` : ""
         let velocidade = document.createElement("p")
         velocidade.classList.add("velocidade")
         velocidade.innerHTML = `Velocidade:&nbsp;${elem.velocidade}`
@@ -637,3 +676,4 @@ function gameOver() {
 player1()
 modoDeEsperaPlayer2()
 comprarCartasPlayer2()
+hpPlayers()

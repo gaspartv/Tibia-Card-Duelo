@@ -9,9 +9,13 @@
     <link rel="stylesheet" href="./src/css/configuracao.css">
     <link rel="stylesheet" href="./src/css/duelo.css">
     <title>Tibia Cards</title>
+    <script src="./src/js/usuarios.js"></script>
     <script src="./src/js/criaturas.js"></script>
     <script src="./src/js/criaturasPlayer2.js"></script>
     <script defer src="./src/js/configuracao.js"></script>
+    <script defer src="./src/js/inicio.js"></script>
+    <script defer src="./src/js/criarconta.js"></script>
+    <script defer src="./src/js/login.js"></script>
     <script defer src="./src/js/duelo.js"></script>
 </head>
 <body id="body">
@@ -68,7 +72,7 @@
             <ul class="menuConfiguracao">
                 <li>
                     <h3><img class="imgVoltar hidden" src="./src/img/setaVoltar.png"><div><img src="./src/img/favicon.png">  BEM VINDO AO TIBIA CARDS <img src="./src/img/favicon.png"></div><span></span></h3>
-                    <div id="inicioSite">
+                    <div id="inicioSite" class="displayFlex">
                         <div>
                             <button class="jogarSemLogin">Jogar sem login</button>
                             <button class="efetuarLogin">Efetuar login</button>
@@ -76,14 +80,15 @@
                         </div>
                         <img src="./src/img/Planestrider.gif">
                     </div>
-                    <div id="login">
+                    <div id="login" class="hiddenSection">
+                        <span id="loginSenhaUserErro" class="hidden">Usuário ou senha incorreto!</span>
                         <p>Nome de usuário</p>
                         <input class="loginUsuario" type="text" placeholder="Digite seu usuário">
                         <p>Senha</p>
                         <input class="loginSenha" type="password" placeholder="Digite sua senha">
                         <button class="loginBtn">Efetuar login</button>
                     </div>
-                    <div id="modoDeJogo">
+                    <div id="modoDeJogo" class="hiddenSection">
                         <div>
                             <img src="./src/img/Ferumbras_Essence.gif">
                             <img src="./src/img/Ferumbras_Essence.gif">
@@ -91,16 +96,25 @@
                         </div>
                         <button class="tutorialInicial"> APRENDA JOGAR</button>
                         <p>Nome de usuário</p>
-                        <input class="cadastroNomeUsuario" type="text"placeholder="Digite seu usuário">
+                        <input class="cadastroInput cadastroNomeUsuario" type="text"placeholder="Digite seu usuário">
+                        <span id="cadastroMsgErro" class="msgErroCadastro hidden"></span>
                         <p>Senha</p>
-                        <input class="cadastroSenha" type="text"placeholder="Digite sua senha">
+                        <input class="cadastroInput cadastroSenha" type="text"placeholder="Digite sua senha">
+                        <span id="cadastroSenhaMsgErro" class="msgErroCadastro hidden"></span>
                         <p>Repita sua senha</p>
-                        <input class="cadastroRepitaSenha" type="text"placeholder="Repita sua senha">
+                        <input class="cadastroInput cadastroRepitaSenha" type="text"placeholder="Repita sua senha">
+                        <span id="cadastroRepitaSenhaMsgErro" class="msgErroCadastro hidden"></span>
                         <p>E-mail</p>
-                        <input class="cadastroEmail" type="text"placeholder="Digite seu e-mail">
+                        <input class="cadastroInput cadastroEmail" type="text"placeholder="Digite seu e-mail">
+                        <span id="cadastroEmailMsgErro" class="msgErroCadastro hidden"></span>
                         <p>Repita seu e-mail</p>
-                        <input class="cadastroRepitaEmail" type="text"placeholder="Repita seu e-mail">
+                        <input class="cadastroInput cadastroRepitaEmail" type="text"placeholder="Repita seu e-mail">
+                        <span id="cadastroRepetirEmailMsgErro" class="msgErroCadastro hidden"></span>
                         <button id="btnCadastrar">Cadastrar</button>
+                    </div>
+                    <div id="cadastroOk" class="hiddenSection">
+                        <h1>Cadastro concluido!</h1>
+                        <button class="efetuarLoginCadastro">Efetuar login</button>
                     </div>
                 </li>
             </ul>

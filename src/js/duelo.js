@@ -26,8 +26,6 @@ const footer = document.getElementById("footer")
 const body = document.getElementById("body")
 const textoCardPlayer1 = document.getElementById("textoCardPlayer1")
 const textoCardPlayer2 = document.getElementById("textoCardPlayer2")
-const btnDuelar = document.getElementById("duelar")
-const btnDeck = document.getElementById("deck")
 const botoes = document.querySelector(".botoes")
 const habilidadesPlayer1 = document.getElementById("habilidadesPlayer1")
 const habilidadesPlayer2 = document.getElementById("habilidadesPlayer2")
@@ -473,24 +471,6 @@ cardsMaoHTML.addEventListener("click", (event) => {
     }
 })
 
-// BOTÃO MENU DUELAR
-btnDuelar.addEventListener("click" , (event) => {
-    let target = event.target
-    if (target.tagName == "LI") {
-        player1()
-        modoDeEsperaPlayer2()
-    }
-})
-
-// BOTÃO MENU DECK
-btnDeck.addEventListener("click", (event) => {
-    let target = event.target
-    if (target.tagName == "LI") {
-        player1()
-        modoDeEsperaPlayer2()
-    }
-})
-
 // FUNÇÃO CRIAR CARD NA MÃO
 function criarCardsMao() {
     cardsMaoHTML.innerHTML = ""
@@ -671,9 +651,3 @@ function gameOver() {
         }, 5000)
     }
 }
-
-
-player1()
-modoDeEsperaPlayer2()
-comprarCartasPlayer2()
-hpPlayers()

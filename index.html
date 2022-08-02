@@ -4,57 +4,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tibia Card Duelo</title>
+    <link rel="shortcut icon" href="./src/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="./src/css/configuracao.css">
+    <link rel="stylesheet" href="./src/css/duelo.css">
+    <title>Tibia Cards</title>
     <script src="./src/js/criaturas.js"></script>
     <script src="./src/js/criaturasPlayer2.js"></script>
-    <script defer src="./src/js/scripts.js"></script>
+    <script defer src="./src/js/configuracao.js"></script>
+    <script defer src="./src/js/duelo.js"></script>
 </head>
 <body id="body">
-    <header>
-        <h1>Tibia Card</h1>
+    <header id="cabecalho" class="hiddenSection">
+        <h1>Tibia Cards</h1>
         <nav>
             <ul>
                 <li id="duelar">Duelar</li>
                 <li id="deck">Meu deck</li>
-                <li>Loja</li>
-                <li>Minha conta</li>
+                <li id="loja">Loja</li>
+                <li id="configuracao">Configurações</li>
+                <li id="minhaConta">Minha conta</li>
             </ul>
         </nav>
     </header>
     <main id="main">
-        <section id="cardsCombatHTML">
-            <ul id="batalhaHTML" class="cardsCombat">
-                <div class="divCard">
-                    <li class="cardPlayer1"></li>
-                    <p id="textoCardPlayer1">...</p>
-                </div>
-                <div class="textosBatalha">
-                    <li class="divisorX"></li>
-                    <p id="contadorRegressivo">Vamos batalhar?</p>
-                    <p id="logFight2">Não tenha pressa, tenho todo tempo do mundo!</p>
-                    <p id="logFight"></p>
-                </div>
-                <div class="divCard">
-                    <li class="cardPlayer2"></li>
-                    <p id="textoCardPlayer2">...</p>
-                </div>
-            </ul>
+        <section class="mainDuelar hiddenSection">
+            <section id="cardsCombatHTML">
+                <ul id="batalhaHTML" class="cardsCombat">
+                    <div class="divCard">
+                        <li class="cardPlayer1"></li>
+                        <p id="textoCardPlayer1">...</p>
+                    </div>
+                    <div class="textosBatalha">
+                        <li class="divisorX"></li>
+                        <p id="contadorRegressivo">Vamos batalhar?</p>
+                        <p id="logFight2">Não tenha pressa, tenho todo tempo do mundo!</p>
+                        <p id="logFight"></p>
+                    </div>
+                    <div class="divCard">
+                        <li class="cardPlayer2"></li>
+                        <p id="textoCardPlayer2">...</p>
+                    </div>
+                </ul>
 
+            </section>
+            <div id="footer">
+                <div class="barraHPplayers">
+                    <div class="barraHP1"><div id="barraHPgreenPlayer1"></div><p class="hpTexto1">5000</p></div>
+                    <div class="cartasComprar"></div>
+                    <div class="barraHP2"><div id="barraHPgreenPlayer2"></div><p class="hpTexto2">5000</p></div>
+                </div>
+                <div class="botoes">
+                    <button id="atacarCarta"><img src="./src/img/Soulcutter.gif" alt=""> Atacar</button>
+                    <button id="comprarCarta"><img src="./src/img/Tibiapedia.gif" alt=""> Comprar</button>
+                    <button id="descartarCarta"><img src="./src/img/Seealso.gif" alt=""> Descartar</button>
+                </div>
+                <ul id="cardsMaoHTML" class="cardsHands"></ul>
+            </div>
         </section>
-        <div id="footer">
-            <div class="barraHPplayers">
-                <div class="barraHP1"><div id="barraHPgreenPlayer1"></div><p class="hpTexto1">5000</p></div>
-                <div class="cartasComprar"></div>
-                <div class="barraHP2"><div id="barraHPgreenPlayer2"></div><p class="hpTexto2">5000</p></div>
-            </div>
-            <div class="botoes">
-                <button id="atacarCarta"><img src="./src/img/Soulcutter.gif" alt=""> Atacar</button>
-                <button id="comprarCarta"><img src="./src/img/Tibiapedia.gif" alt=""> Comprar</button>
-                <button id="descartarCarta"><img src="./src/img/Seealso.gif" alt=""> Descartar</button>
-            </div>
-            <ul id="cardsMaoHTML" class="cardsHands"></ul>
-        </div>
+        <section class="mainDeck hiddenSection">teste</section>
+        <section class="mainLoja hiddenSection">teste</section>
+        <section class="mainConfiguracao">
+            <ul class="menuConfiguracao">
+                <li>
+                    <h3><img class="imgVoltar hidden" src="./src/img/setaVoltar.png"><div><img src="./src/img/favicon.png">  BEM VINDO AO TIBIA CARDS <img src="./src/img/favicon.png"></div><span></span></h3>
+                    <div id="inicioSite">
+                        <div>
+                            <button class="jogarSemLogin">Jogar sem login</button>
+                            <button class="efetuarLogin">Efetuar login</button>
+                            <button class="criarConta">Criar conta</button>
+                        </div>
+                        <img src="./src/img/Planestrider.gif">
+                    </div>
+                    <div id="login">
+                        <p>Nome de usuário</p>
+                        <input class="loginUsuario" type="text" placeholder="Digite seu usuário">
+                        <p>Senha</p>
+                        <input class="loginSenha" type="password" placeholder="Digite sua senha">
+                        <button class="loginBtn">Efetuar login</button>
+                    </div>
+                    <div id="modoDeJogo">
+                        <div>
+                            <img src="./src/img/Ferumbras_Essence.gif">
+                            <img src="./src/img/Ferumbras_Essence.gif">
+                            <img src="./src/img/Ferumbras_Essence.gif">
+                        </div>
+                        <button class="tutorialInicial"> APRENDA JOGAR</button>
+                        <p>Nome de usuário</p>
+                        <input class="cadastroNomeUsuario" type="text"placeholder="Digite seu usuário">
+                        <p>Senha</p>
+                        <input class="cadastroSenha" type="text"placeholder="Digite sua senha">
+                        <p>Repita sua senha</p>
+                        <input class="cadastroRepitaSenha" type="text"placeholder="Repita sua senha">
+                        <p>E-mail</p>
+                        <input class="cadastroEmail" type="text"placeholder="Digite seu e-mail">
+                        <p>Repita seu e-mail</p>
+                        <input class="cadastroRepitaEmail" type="text"placeholder="Repita seu e-mail">
+                        <button id="btnCadastrar">Cadastrar</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="mainMinhaConta hiddenSection">teste</section>
     </main>
 </body>
 </html>

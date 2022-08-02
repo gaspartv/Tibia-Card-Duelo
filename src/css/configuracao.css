@@ -1,0 +1,212 @@
+.mainConfiguracao {
+    color: #fff;
+    width: 1600px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menuConfiguracao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 12px;
+    background-color: rgba(29, 29, 29, 0.8);
+    width: 50%;
+}
+
+.imgVoltar {
+    width: 25px;
+}
+
+.imgVoltar:hover {
+    cursor: pointer;
+}
+
+.menuConfiguracao li {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.144);
+    width: 100%;
+    margin: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.menuConfiguracao h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 30px;
+    background-color: rgb(29, 29, 29);
+    height: 50px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    margin-bottom: 10px;
+    padding: 0 20px;
+}
+
+#inicioSite {
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+#inicioSite div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#inicioSite button {
+    width: 160px;
+    height: 70px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+    text-transform: uppercase;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 2px solid transparent;
+}
+
+#inicioSite button:hover {
+    background-color: rgb(138, 0, 0);
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+#login {
+    height: 250px;
+    flex-direction: column;
+    align-items: center;
+}
+
+#login p {
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+#login input {
+    font-size: 12px;
+    text-align: center;
+    width: 220px;
+    height: 40px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    margin-bottom: 20px;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+#login input:hover {
+    border: 2px solid #000;
+}
+
+#login button {
+    text-align: center;
+    width: 220px;
+    height: 40px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    margin-bottom: 20px;
+    background-color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+#login button:hover {
+    background-color: rgb(138, 0, 0);
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+#modoDeJogo {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#modoDeJogo p {
+    text-transform: uppercase;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+#modoDeJogo input {
+    font-size: 12px;
+    text-align: center;
+    width: 220px;
+    height: 40px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    margin-bottom: 20px;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+#modoDeJogo button {
+    text-align: center;
+    width: 220px;
+    height: 40px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    margin-bottom: 20px;
+    background-color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+#modoDeJogo button:hover {
+    background-color: rgb(138, 0, 0);
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+/***** RESPONSIVIDADE PAGINA CONFIGURAÇÕES *****/
+@media screen and (max-width: 1450px) {
+    .menuConfiguracao {
+        width: 440px;
+    }
+    .menuConfiguracao li {
+        min-width: 400px;
+    }
+    #inicioSite div {
+        display: flex;
+        flex-direction: column;
+        height: 300px;
+    }
+    .menuConfiguracao h3 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .menuConfiguracao {
+        width: 100%;
+    }
+    .menuConfiguracao li {
+        width: 100%;
+    }
+    #inicioSite div {
+        display: flex;
+        flex-direction: column;
+    }
+    .menuConfiguracao h3 {
+        font-size: 13px;
+    }
+    #inicioSite button {
+        width: 90px;
+        height: 35px;
+        font-size: 8px;
+    }
+}
+

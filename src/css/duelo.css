@@ -129,7 +129,6 @@
     justify-content: center;
     align-items: center;
     background-color: chartreuse;
-    height: 200px;
 }
 
 .btnContinuar {
@@ -161,7 +160,7 @@
 #footer {
     color: #fff;
     background-color: #000;
-    height: 800px;
+    height: 100vh;
 }
 
 .barraHPplayers {

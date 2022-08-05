@@ -15,7 +15,6 @@ let quantidadeCartasComprar2 = 10
 const cardsMaoHTML = document.getElementById("cardsMaoHTML")
 const cardsCombatHTML = document.getElementById("cardsCombatHTML")
 const qntCartas = document.querySelector(".cartasComprar")
-qntCartas.innerText = ""
 const logFight = document.getElementById("logFight")
 const logFight2 = document.getElementById("logFight2")
 const contadorRegressivo = document.getElementById("contadorRegressivo")
@@ -30,7 +29,7 @@ const botoes = document.querySelector(".botoes")
 const habilidadesPlayer1 = document.getElementById("habilidadesPlayer1")
 const habilidadesPlayer2 = document.getElementById("habilidadesPlayer2")
 
-
+qntCartas.innerText = ""
 if (quantidadeCartasComprar == 1) {
     qntCartas.innerText = `Você selecionou o modo para jogar com ${quantidadeCartasComprar} carta!`
 } else if (quantidadeCartasComprar > 1) {
@@ -39,50 +38,55 @@ if (quantidadeCartasComprar == 1) {
     qntCartas.innerText = `Para iniciar o jogo, volte no menu e selecione a quantidade de cartas!`
 }
 
-// FUNÇÃO BATALHA
-function batalha() {
-    player1()
-    modoDeEsperaPlayer2()
-}
-
 // FUNÇÃO RANDOM NÚMERO
-function randomNumber(numeroMaximo) {
+const randomNumber = (numeroMaximo) => {
     return Math.floor(Math.random() * numeroMaximo)
 }
 
 // FUNÇÃO CALCULAR DANO
-function calcularDano(player1, player2) {
+const calcularDano = (player1, player2) => {
     let danoFisico = player1[0].ataqueFisico - player2[0].defesa
     let danoMagico = 0
-    let porcentagem = 0
     let arrayMagias = player1[0].ataqueMagico[0]
     let arrayResistencia = player2[0].resistencia[0]
-    for (let keyATK in arrayMagias) {
-        let keyMagiasATK = arrayMagias[keyATK]
-        if (keyMagiasATK > 0) {
-            for (let keyResist in arrayResistencia) {
-                let keyResistencia = arrayResistencia[keyResist]
-                if (keyATK == keyResist) {
-                    porcentagem = (keyResistencia / 100) *  keyMagiasATK
-                    if (keyResistencia < 0) {
-                        danoMagico = keyMagiasATK + porcentagem
-                    } else if (keyResistencia > 0) {
-                        danoMagico = keyMagiasATK - porcentagem
-                    } else {
-                        danoMagico = keyMagiasATK
-                    }
-                }
-                porcentagem = 0
-            }
+
+    for (let key in arrayMagias) {
+        let porcentagem = 0
+
+        if (arrayMagias[key] > 0) {
+
+            porcentagem = (arrayResistencia[key] / 100) *  arrayMagias[key]
+
+            if (arrayResistencia[key] < 0) {
+                danoMagico = arrayMagias[key] + porcentagem
+            } else if (arrayResistencia[key] > 0) {
+                danoMagico = arrayMagias[key] - porcentagem
+            } else {
+                danoMagico = arrayMagias[key]
+            }            
         }
     }
     return dano = danoFisico + danoMagico
 }
 
+const combateHabilidades = (arrCarta) => {
+    let habilidadesCarta = [{}]
+    arrCarta.forEach(elem => {
+        elem.status.forEach(elemStatus => {
+            elemStatus == "heal" ? elem.hp += elem.habilidades[0].heal : ""
+            elemStatus == "veneno" ? habilidadesCarta.danoExtra = elem.habilidades[0].veneno : ""
+            elemStatus == "drunk" ? habilidadesCarta.deixarBebado = elem.habilidades[0].drunk : ""
+            elemStatus == "haste" ? habilidadesCarta.velocidadeExtra = elem.habilidades[0].haste : ""
+            elemStatus == "paralyze" ? habilidadesCarta.paralyze = elem.habilidades[0].paralyze : ""
+        })
+    })
+    return habilidadesCarta
+}
+
 // FUNÇÃO COMBATE
-function combate() {
+const combate = () => {
     // DAMAGE
-    let danoPlayer1 = 0
+/*     let danoPlayer1 = 0
     let danoPlayer2 = 0
 
     let danoExtra1 = 0
@@ -96,8 +100,12 @@ function combate() {
 
     let velocidadeParalizy1 = 0
     let velocidadeParalizy2 = 0
+ */
+    let habilidadesPlayer1 = combateHabilidades(cartaPlayer1)
+    let habilidadesPlayer2 = combateHabilidades(cartaPlayer2)
 
-    cartaPlayer1.forEach(elem => {
+
+ /*    cartaPlayer1.forEach(elem => {
         elem.status.forEach(elemStatus => {
             elemStatus == "heal" ? elem.hp += elem.habilidades[0].heal : ""
             elemStatus == "veneno" ? danoExtra2 = elem.habilidades[0].veneno : ""
@@ -115,7 +123,7 @@ function combate() {
             elemStatus == "paralyze" ? velocidadeParalizy1 = elem.habilidades[0].paralyze : ""
         })
     })
-
+ */
     let velocidadePlayer1 = parseInt((cartaPlayer1[0].velocidade + cartaPlayer1[0].stamina + velocidadeExtra1) - velocidadeParalizy1)
     let velocidadePlayer2 = parseInt((cartaPlayer2[0].velocidade + cartaPlayer2[0].stamina + velocidadeExtra2) - velocidadeParalizy2)
 
@@ -467,7 +475,8 @@ cardsMaoHTML.addEventListener("click", (event) => {
                       contadorRegressivo.innerHTML = `<strong>HP:&nbsp;</strong>${elem.hp}`,
                       logFight2.innerHTML = `<img src="./src/img/efeitos/ataque.gif">&nbsp;${elem.ataqueFisico}&nbsp;&nbsp;&nbsp;<img src="./src/img/efeitos/defesa.gif">&nbsp;${elem.defesa}`,
                       logFight.innerHTML = `<img src="./src/img/estrelas/difficulty_${elem.estrela}.png">&nbsp;&nbsp;<img src="./src/img/raridade/rarity_${elem.raridade}.png">` ) : "")
-        batalha()
+        player1()
+        modoDeEsperaPlayer2()
     }
 })
 

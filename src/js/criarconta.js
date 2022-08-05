@@ -1,11 +1,11 @@
 // FUNÇÃO PARA ADICIONAR MOSTRAR ERRO
-function cadastroErroAdd(classe) {
+const cadastroErroAdd = (classe) => {
     classe.classList.add("cadastroInputErro")
     classe.classList.remove("cadastroInput")
 }
 
 // FUNÇÃO PARA ADICIONAR ESCONDER ERRO
-function cadastroErroRemover(classe) {
+const cadastroErroRemover = (classe) => {
     classe.classList.remove("cadastroInputErro")
     classe.classList.add("cadastroInput")
 }
@@ -32,12 +32,10 @@ btnCadastrar.addEventListener("click", (event) => {
     let repetirSenhaUsuario = cadastroRepitaSenha.value.replace(/\s/g, '')
     let emailUsuario = cadastroEmail.value.replace(/\s/g, '')
     let repetirEmailUsuario = cadastroRepitaEmail.value.replace(/\s/g, '')
-
     let validarUsuario = false
+
     for (let key in usuario) {
-        if (usuario[key].user == nomeUsuario.toLowerCase()) {
-            validarUsuario = true
-        }
+        usuario[key].user == nomeUsuario.toLowerCase() ? validarUsuario = true : ""
     }
 
     if (target.tagName == "BUTTON") {
@@ -119,7 +117,7 @@ btnCadastrar.addEventListener("click", (event) => {
             cadastroMsgErro.classList.remove("hidden")
             cadastroMsgErro.innerText = `Você precisa digitar um Usuário`
             cadastroErroAdd(cadastroNomeUsuario)
-        } else if (nomeUsuario.length < 5 && nomeUsuario.length > 10) {
+        } else if (nomeUsuario.length < 5 || nomeUsuario.length > 10) {
             cadastroMsgErro.classList.remove("hidden")
             cadastroMsgErro.innerText = `Deve conter no min 5 e no max 10`
             cadastroErroAdd(cadastroNomeUsuario)
